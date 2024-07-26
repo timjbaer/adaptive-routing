@@ -15,8 +15,8 @@ struct {
 	__uint(pinning, LIBBPF_PIN_BY_NAME);
 } intf_scores SEC(".maps");
 
-SEC("avx_lb_redir")
-int _avx_lb_redir(struct __sk_buff *skb)
+SEC("adapt_redir")
+int _adapt_redir(struct __sk_buff *skb)
 {
 	// Lookup at key 0.
 	__u32 k, *v;

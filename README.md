@@ -6,3 +6,8 @@
 - libbpf-dev
 - bpftool
 
+## Usage
+```
+make CIDR={?}
+```
+
