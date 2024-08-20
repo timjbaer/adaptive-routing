@@ -5,13 +5,12 @@ if [ -z "${1}" ]; then
     exit 1
 fi
 
-ROUTE_SUBNET="${1}"
+IP="${1}"
 
 ip link add adapt type dummy 2>/dev/null
 ip link set adapt up
 
-ip route del ${ROUTE_SUBNET} metric 100 proto 102 nexthop dev adapt 2>/dev/null
-ip route add "${ROUTE_SUBNET}" metric 100 proto 102 nexthop dev adapt
+ip route replace ${IP} dev adapt
 
 # Attach BPF program to dummy interface.
 /sbin/tc qdisc del dev adapt clsact 2>/dev/null
