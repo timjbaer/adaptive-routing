@@ -11,7 +11,7 @@ ip link add adapt type dummy 2>/dev/null
 ip link set adapt up
 
 ip route del "${IP}"
-ip route add "${IP}" via 30.0.11.108 dev adapt
+ip route add "${IP}" dev adapt
 
 # Attach BPF program to interface.
 /sbin/tc qdisc del dev adapt clsact 2>/dev/null

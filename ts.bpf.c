@@ -3,8 +3,7 @@
 #include <linux/bpf.h>
 #include <bpf/bpf_helpers.h>
 
-// #include <linux/in.h>
-#include <netinet/in.h>
+#include <linux/in.h>
 #include <linux/ip.h>
 #include <linux/tcp.h>
 #include <linux/if_ether.h>
@@ -24,30 +23,30 @@ int _ts(struct __sk_buff *skb)
 	void *data_end = (void*)(long)skb->data_end;
 
 	if (data + sizeof(*eth) > data_end)
-		return TC_ACT_OK;
+		goto cleanup;
 
 	struct iphdr *iph = data + sizeof(*eth);
 
 	if (iph + 1 > data_end)
-		return TC_ACT_OK;
+		goto cleanup;
 
 	if (iph->protocol != IPPROTO_TCP)
-		return TC_ACT_OK;
+		goto cleanup;
 
 	struct tcphdr *tcph = (struct tcphdr*)((__u32*)iph + iph->ihl);
 	if (tcph + 1 > data_end)
-		return TC_ACT_OK;
+		goto cleanup;
 
 	if ((char*)(tcph + 1) + TCP_OPTIONS_LEN > data_end)
-		return TC_ACT_OK;
+		goto cleanup;
 
 	char *tcpts = (char*)(tcph + 1) + TCP_TIMESTAMP_OFF;
-	bpf_printk("ts val: %u\n", htonl(*(__u32*)tcpts));
 
-	// Override TS val and ecr with (synchronized) system time.
-	// __u64 ts = bpf_ktime_get_ns();
-	// memcpy(tcpts, &ts, sizeof(__u64));
+	// Override TS val and ecr with system time (synchronized).
+	__u64 ts = bpf_ktime_get_ns();
+	memcpy(tcpts, &ts, sizeof(__u64));
 
+cleanup:
 	return bpf_redirect_neigh(ENS5_INTF_IDX, NULL, 0, 0);
 }
 
