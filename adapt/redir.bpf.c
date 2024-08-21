@@ -1,9 +1,8 @@
 #include <linux/bpf.h>
 #include <bpf/bpf_helpers.h>
 
-#ifndef MAX_ENTRIES
-#	define MAX_ENTRIES 64
-#endif
+#define MAX_ENTRIES 64
+#define GRE1_INTF_IDX 6
 
 char _license[] SEC("license") = "GPL";
 
@@ -15,8 +14,8 @@ struct {
 	__uint(pinning, LIBBPF_PIN_BY_NAME);
 } intf_scores SEC(".maps");
 
-SEC("avx_lb_redir")
-int _avx_lb_redir(struct __sk_buff *skb)
+SEC("adapt_redir")
+int _adapt_redir(struct __sk_buff *skb)
 {
 	// Lookup at key 0.
 	__u32 k, *v;
@@ -25,12 +24,11 @@ int _avx_lb_redir(struct __sk_buff *skb)
 	v = bpf_map_lookup_elem(&intf_scores, &k);
 	if (!v) {
 		bpf_printk("error during bpf lookup map\n");
-		return 0;
+		goto cleanup;
 	}
 	bpf_printk("key: %u, score: %u\n", k, *v);
-
+cleanup:
 	// Redirect packet to tunnel.
-	// return bpf_redirect(ifindex, 0);
-	return 0;
+	return bpf_redirect_neigh(GRE1_INTF_IDX, NULL, 0, 0);
 }
 
