@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "${1}" ]; then
-    echo "Please specify a subnet to adaptively route traffic towards"
+    echo "Please specify an IP to adaptively route traffic towards"
     exit 1
 fi
 
@@ -10,7 +10,7 @@ IP="${1}"
 ip link add adapt type dummy 2>/dev/null
 ip link set adapt up
 
-ip route replace ${IP} dev adapt
+ip route replace ${IP} dev adapt metric 1
 
 # Attach BPF program to dummy interface.
 /sbin/tc qdisc del dev adapt clsact 2>/dev/null
