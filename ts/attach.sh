@@ -6,15 +6,15 @@ if [ -z "${1}" ]; then
 fi
 
 IP="${1}"
+IF="ts"
 
-ip link add adapt type dummy 2>/dev/null
-ip link set adapt up
+ip link add ${IF} type dummy 2>/dev/null
+ip link set ${IF} up
 
-ip route del "${IP}"
-ip route add "${IP}" dev adapt
+ip route replace "${IP}" dev ts
 
 # Attach BPF program to interface.
-/sbin/tc qdisc del dev adapt clsact 2>/dev/null
-/sbin/tc qdisc add dev adapt clsact
-/sbin/tc filter add dev adapt egress bpf direct-action obj ts.bpf.o sec ts
+/sbin/tc qdisc del dev ${IF} clsact 2>/dev/null
+/sbin/tc qdisc add dev ${IF} clsact
+/sbin/tc filter add dev ${IF} egress bpf direct-action obj ts.bpf.o sec tc
 

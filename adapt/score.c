@@ -6,7 +6,7 @@
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
 
-static const char INTF_SCORES_PATH[] = "/sys/fs/bpf/adapt/intf_scores";
+static const char MAP_PATH[] = "/sys/fs/bpf/tc/globals/intf_scores";
 
 jmp_buf jump_destination;
 
@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 	}
 
 	// Get pinned interface scores BPF map.
-	fd = bpf_obj_get(INTF_SCORES_PATH);
+	fd = bpf_obj_get(MAP_PATH);
 	if (fd < 0) {
 		printf("error during bpf open file: %d\n", ret);
 		goto cleanup;

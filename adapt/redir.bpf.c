@@ -20,12 +20,29 @@ struct {
 	__type(value, __u32);
 	__uint(max_entries, MAX_ENTRIES);
 	__uint(pinning, LIBBPF_PIN_BY_NAME);
+	__uint(flags, BPF_F_MMAPABLE);
 } intf_scores SEC(".maps");
 
-SEC("adapt_redir")
-int _adapt_redir(struct __sk_buff *skb)
+struct {
+        __uint(type, BPF_MAP_TYPE_ARRAY);
+        __type(key, __u32);
+        __type(value, __u64);
+        __uint(max_entries, 1);
+        __uint(pinning, LIBBPF_PIN_BY_NAME);
+	__uint(flags, BPF_F_MMAPABLE);
+} boot_to_wall_off_ns SEC(".maps");
+
+SEC("tc")
+int adapt_redir(struct __sk_buff *skb)
 {
-	// Parse custom timestamp.
+	// Read boot to wall time offset from userspace.
+        __u32 k = 0;
+	__u64 *off_ns;
+        off_ns = bpf_map_lookup_elem(&boot_to_wall_off_ns, &k);
+        if (!off_ns)
+                goto cleanup;
+
+	// Find TCP timestamp.
 	void *data = (void*)(long)skb->data;
         struct ethhdr *eth = data;
         void *data_end = (void*)(long)skb->data_end;
@@ -51,20 +68,18 @@ int _adapt_redir(struct __sk_buff *skb)
         char *tcpts = (char*)(tcph + 1) + TCP_TIMESTAMP_OFF;
 	__u64 start_ns = *(__u64*)tcpts;
 
-	__u64 end_ns = bpf_ktime_get_ns();
-	__u64 lat_ms = (end_ns - start_ns) / 1000000;
-	bpf_printk("observed latency (ms): %llu\n", lat_ms);
+	// Compute latency.
+	__u64 end_ns = bpf_ktime_get_boot_ns() + *off_ns;
+	__u64 lat_ns = end_ns - start_ns;
+	bpf_printk("observed latency (ms): %lu\n", lat_ns);
 
 	// Lookup at key 0.
-	__u32 k, *v;
+	__u32 *score;
 
 	k = 0;
-	v = bpf_map_lookup_elem(&intf_scores, &k);
-	if (!v) {
-		bpf_printk("error during bpf lookup map\n");
+	score = bpf_map_lookup_elem(&intf_scores, &k);
+	if (!score)
 		goto cleanup;
-	}
-	bpf_printk("key: %u, score: %u\n", k, *v);
 
 cleanup:
 	// Redirect packet to tunnel.
