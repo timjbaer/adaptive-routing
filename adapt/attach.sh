@@ -6,23 +6,15 @@ if [ -z "${1}" ]; then
 fi
 
 IP="${1}"
+IF="adapt"
 
-ip link add adapt type dummy 2>/dev/null
-ip link set adapt up
+ip link add ${IF} type dummy 2>/dev/null
+ip link set ${IF} up
 
-ip route replace ${IP} dev adapt metric 1
+ip route replace ${IP} dev ${IF} metric 1
 
 # Attach BPF program to dummy interface.
-/sbin/tc qdisc del dev adapt clsact 2>/dev/null
-/sbin/tc qdisc add dev adapt clsact
-/sbin/tc filter add dev adapt egress bpf direct-action obj redir.bpf.o sec adapt_redir
-
-# Pin BPF maps.
-SCORES_DIR="/sys/fs/bpf/adapt"
-mkdir -p ${SCORES_DIR}
-
-SCORES_MAP="${SCORES_DIR}/intf_scores"
-rm ${SCORES_MAP} 2>/dev/null
-
-bpftool map pin name intf_scores ${SCORES_MAP}
+/sbin/tc qdisc del dev ${IF} clsact 2>/dev/null
+/sbin/tc qdisc add dev ${IF} clsact
+/sbin/tc filter add dev ${IF} egress bpf direct-action obj redir.bpf.o sec tc
 
