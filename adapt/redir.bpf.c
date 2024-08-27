@@ -8,9 +8,10 @@
 #include <linux/pkt_cls.h>
 
 #define MAX_ENTRIES 64
-#define GRE1_INTF_IDX 6
+#define AF21_HEX 0x48
 #define TCP_TIMESTAMP_OFF 4
 #define TCP_OPTIONS_LEN 12
+#define GRE1_INTF_IDX 6
 
 char _license[] SEC("license") = "GPL";
 
@@ -35,14 +36,7 @@ struct {
 SEC("tc")
 int adapt_redir(struct __sk_buff *skb)
 {
-	// Read boot to wall time offset from userspace.
-        __u32 k = 0;
-	__u64 *off_ns;
-        off_ns = bpf_map_lookup_elem(&boot_to_wall_off_ns, &k);
-        if (!off_ns)
-                goto cleanup;
-
-	// Find TCP timestamp.
+	// Find IP header.
 	void *data = (void*)(long)skb->data;
         struct ethhdr *eth = data;
         void *data_end = (void*)(long)skb->data_end;
@@ -58,20 +52,34 @@ int adapt_redir(struct __sk_buff *skb)
         if (iph->protocol != IPPROTO_TCP)
 		goto cleanup;
 
-	        struct tcphdr *tcph = (struct tcphdr*)((__u32*)iph + iph->ihl);
+	// Only apply algorithm to low latency packets
+	// defined as DSCP value AF21_HEX.
+	if ((iph->tos & 0xFC) != AF21_HEX)
+		goto cleanup;
+
+	// Find TCP header.
+	struct tcphdr *tcph = (struct tcphdr*)((__u32*)iph + iph->ihl);
         if (tcph + 1 > data_end)
 		goto cleanup;
 
         if ((char*)(tcph + 1) + TCP_OPTIONS_LEN > data_end)
 		goto cleanup;
 
+	// Find TCP timestamp
         char *tcpts = (char*)(tcph + 1) + TCP_TIMESTAMP_OFF;
 	__u64 start_ns = *(__u64*)tcpts;
+
+	// Read boot to wall time offset from userspace.
+        __u32 k = 0;
+	__u64 *off_ns;
+        off_ns = bpf_map_lookup_elem(&boot_to_wall_off_ns, &k);
+        if (!off_ns)
+                goto cleanup;
 
 	// Compute latency.
 	__u64 end_ns = bpf_ktime_get_boot_ns() + *off_ns;
 	__u64 lat_ns = end_ns - start_ns;
-	bpf_printk("observed latency (ms): %lu\n", lat_ns);
+	bpf_printk("observed latency (ns): %lu\n", lat_ns);
 
 	// Lookup at key 0.
 	__u32 *score;
