@@ -6,9 +6,10 @@
 #include <linux/tcp.h>
 #include <linux/if_ether.h>
 #include <linux/pkt_cls.h>
+#include "perfsonar_metrics.h"
 
 #define MAX_ENTRIES 64
-#define GRE1_INTF_IDX 6
+#define GRE1_INTF_IDX 2
 #define TCP_TIMESTAMP_OFF 4
 #define TCP_OPTIONS_LEN 12
 
@@ -17,11 +18,11 @@ char _license[] SEC("license") = "GPL";
 struct {
 	__uint(type, BPF_MAP_TYPE_ARRAY);
 	__type(key, __u32);
-	__type(value, __u32);
+	__type(value, perfSonar);
 	__uint(max_entries, MAX_ENTRIES);
 	__uint(pinning, LIBBPF_PIN_BY_NAME);
 	__uint(flags, BPF_F_MMAPABLE);
-} intf_scores SEC(".maps");
+} perfsonar_scores SEC(".maps");
 
 struct {
         __uint(type, BPF_MAP_TYPE_ARRAY);
@@ -32,12 +33,21 @@ struct {
 	__uint(flags, BPF_F_MMAPABLE);
 } boot_to_wall_off_ns SEC(".maps");
 
+struct {
+	__uint(type, BPF_MAP_TYPE_ARRAY);
+	__type(key, __u32);
+	__type(value, __u32);
+	__uint(max_entries, 1);
+	__uint(pinning, LIBBPF_PIN_BY_NAME);
+	__uint(flags, BPF_F_MMAPABLE);
+} best_tunnel_map SEC(".maps");
+
 SEC("tc")
 int adapt_redir(struct __sk_buff *skb)
 {
 	// Read boot to wall time offset from userspace.
         __u32 k = 0;
-	__u64 *off_ns;
+		__u64 *off_ns;
         off_ns = bpf_map_lookup_elem(&boot_to_wall_off_ns, &k);
         if (!off_ns)
                 goto cleanup;
@@ -71,15 +81,19 @@ int adapt_redir(struct __sk_buff *skb)
 	// Compute latency.
 	__u64 end_ns = bpf_ktime_get_boot_ns() + *off_ns;
 	__u64 lat_ns = end_ns - start_ns;
-	bpf_printk("observed latency (ms): %lu\n", lat_ns);
+	//bpf_printk("observed latency (ms): %lu\n", lat_ns);
 
-	// Lookup at key 0.
-	__u32 *score;
+	int best_tunnel_key = 42;
+	int *best_tunnel_val;
 
-	k = 0;
-	score = bpf_map_lookup_elem(&intf_scores, &k);
-	if (!score)
+	// Lookup at key 42 where the best tunnel id is stored
+	best_tunnel_val = bpf_map_lookup_elem(&best_tunnel_map, &best_tunnel_key);
+
+	if (best_tunnel_val == 0)
 		goto cleanup;
+	else
+		return bpf_redirect_neigh(*best_tunnel_val, NULL, 0, 0); // THIS HAS TO BE TUNNEL INTERFACE INDEX
+	
 
 cleanup:
 	// Redirect packet to tunnel.

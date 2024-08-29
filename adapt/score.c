@@ -1,12 +1,21 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <setjmp.h>
 
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
+#include <linux/types.h>
+#include "perfsonar_metrics.h"
 
-static const char MAP_PATH[] = "/sys/fs/bpf/tc/globals/intf_scores";
+#define PERFSONARCMDSIZE 100
+#define PERFSONARINFOSIZE 100
+#define PERFSONARDATASIZE 1024
+#define FILENAMELENGTH 20
+
+static const char MAP_PATH[] = "/sys/fs/bpf/tc/globals/perfsonar_scores";
+static const char BEST_TUNNEL_MAP_PATH[] = "/sys/fs/bpf/tc/globals/best_tunnel_map";
 
 jmp_buf jump_destination;
 
@@ -15,10 +24,224 @@ void sigint_handler(int sg)
 	longjmp(jump_destination, 1);
 }
 
+static void perfsonar_stats_print(perfSonar *stats_rec){
+
+        perfSonar *val;
+        double period;
+
+        __u64 packets;
+
+        val = stats_rec;
+
+        printf("perfSonar Stats: \n\n");
+        for (unsigned int tun_no=1; tun_no <= NUM_TUNNELS; tun_no++){
+                printf("Median Latency in String %f\n", val->median_latency);
+				printf("Min Latency in String %f\n", val->min_latency);
+				printf("Max Latency in String %f\n", val->max_latency);
+				printf("Mean Latency in String %f\n", val->mean_latency);
+
+        }
+}
+
+int perfsonar_stats_update_per_IP(int map_fd, __u32 map_type, perfSonar *stats_rec, int tun_no, char* IP){
+
+    char perfsonar_cmd[PERFSONARCMDSIZE] = {0};
+    char analysis_cmd[100] = {0};
+    char f_name[FILENAMELENGTH] = {0};
+    char log_name[FILENAMELENGTH] = {0};
+
+	__u32 key;
+	perfSonar* value;
+
+    strcpy(f_name, "perfsonar_out.csv");
+    FILE* perfsonar_file = fopen(f_name, "w+");
+
+    if (perfsonar_file == NULL) {
+        printf("Could not open file\n");
+        return 1;
+    }
+
+	strcpy(log_name, "log.csv");
+    FILE* file = fopen(log_name, "w+");
+
+    if (file == NULL) {
+        printf("Could not open file\n");
+        return 1;
+    }
+
+    sprintf(perfsonar_cmd, "pscheduler task latency --dest %s > %s", IP, f_name);
+    printf("Executing perfsonar command %s\n", perfsonar_cmd);
+    system(perfsonar_cmd);
+
+    sprintf(analysis_cmd, "cat %s | grep -A 8 'Delay Median' > %s", f_name, log_name);
+    printf("Executing analysis command : %s\n", analysis_cmd);
+    system(analysis_cmd);
+
+    char line[PERFSONARDATASIZE];
+    unsigned int line_ct = 0;
+    unsigned int pos = 0;
+    char *token;
+    while (fgets(line, PERFSONARDATASIZE, file)) {
+        char* tmp = strdup(line);
+        //printf("\n\n Considering : %s ", tmp);
+        line_ct++;
+        pos = 0;	
+		switch(line_ct){
+				case 1: for (char *p = strtok(tmp, " "); p != NULL; p = strtok(NULL, " ")){
+						//printf("Token = %s\n", p);
+								if(pos == 3){
+										token = strdup(p);
+										printf("Median Latency in String %s\n", token);
+										stats_rec->median_latency = atof(token);
+								}
+								pos++;
+						}
+						break;
+
+				case 2: for (char *p = strtok(tmp, " "); p != NULL; p = strtok(NULL, " ")){
+						//printf("Token = %s\n", p);
+								if (pos == 3){
+										token = strdup(p);
+										printf("Min Latency in String %s\n", token);
+										stats_rec->min_latency = atof(token);
+								}
+								pos++;
+						}
+						break;
+
+				case 3: for (char *p = strtok(tmp, " "); p != NULL; p = strtok(NULL, " ")){
+						//printf("Token = %s\n", p);
+								if (pos == 3){
+										token = strdup(p);
+										printf("Max Latency in String %s\n", token);
+										stats_rec->max_latency = atof(token);
+								}
+								pos++;
+						}
+						break;
+
+				case 4: for (char *p = strtok(tmp, " "); p != NULL; p = strtok(NULL, " ")){
+						//printf("Token = %s\n", p);
+								if (pos == 3){
+										token = strdup(p);
+										printf("Mean Latency in String %s\n", token);
+										stats_rec->mean_latency = atof(token);
+								}
+								pos++;
+						}
+						break;
+
+		}
+		free(tmp);
+		line_ct += 1;
+
+
+    }
+
+	fclose(file);
+	printf("To Host = %s (Tunnel # = %d) --> Median Latency = %f\tMin. Latency = %f\tMax. Latency = %f\tMean Latency = %f\n", IP, tun_no, stats_rec->median_latency, stats_rec->min_latency, stats_rec->max_latency, stats_rec->mean_latency);
+
+	key = tun_no;
+	value = stats_rec;
+	bpf_map_update_elem(map_fd, &key, value, BPF_ANY);
+
+	return 0;
+}
+
+//finding minimum latency using perfsonar scores
+int find_min_latency(map_fd){
+
+	float min_value = 100.00;
+	int min_tunnel = 0;
+	int err;
+	
+	int prev_tun=0, tun=0;
+	perfSonar *value;
+
+	//Iterate over the perfsonar_scores map
+	while(bpf_map_get_next_key(map_fd, &prev_tun, &tun) == 0) {
+		err = bpf_map_lookup_elem(map_fd, &tun, value);
+		if (err == 0){
+			if (value->mean_latency < min_value){
+				min_value = value->median_latency;
+				min_tunnel = tun;
+			}
+		}
+		else{
+			perror("Failed to iterate over map");
+			return -1;
+		}
+
+		prev_tun = tun;
+	}
+
+	return min_tunnel;
+
+
+}
+
+static void perfsonar_stats_poll (int map_fd, __u32 map_type, int num_tunnels, char **IPs){
+
+        perfSonar record = {0};
+        int update_ret;
+		int best_tunnel_map_fd;
+		int key = 42;
+		int value;
+
+		//Initial Updation of perfsonar_scores eBPF maps 
+		for (int tun_no = 1; tun_no <= num_tunnels; tun_no++){
+			printf("Analyzing IP = %s", IPs[tun_no-1]);
+			update_ret = perfsonar_stats_update_per_IP(map_fd, map_type, &record, tun_no, IPs[tun_no-1]);
+			if(update_ret == 1){
+				printf("\n***********************\n");
+				printf("\tERROR UPDATING MAP\t");
+				printf("\n***********************\n\n\n");
+			}
+		}
+        usleep(100); // 100 useconds sleep
+
+		// Find best tunnel i.e., tunnel with least delay
+		int tun_no = find_min_latency(map_fd);
+
+		//store that tunnel into best_tunnel_map
+		best_tunnel_map_fd = bpf_obj_get(BEST_TUNNEL_MAP_PATH);
+		if (bpf_map_update_elem(best_tunnel_map_fd, &key, &tun_no, BPF_ANY)){
+			perror("bpf_map_update_elem");
+		}
+
+		//print the best tunnel for debigging
+		if (bpf_map_lookup_elem(best_tunnel_map_fd, &key, &value)) {
+			perror("bpf_map_lookup_elem");
+		}
+
+		printf("Best tunnel value = %d\n", value);
+
+        while(1){
+                printf("------------------------------\n\n\n");
+				printf("number of tunnels = %d\t", num_tunnels);
+				printf("arguments = %s\t", IPs[0]);
+				printf("arguments = %s\n", IPs[1]);
+				for (int tun_no = 1; tun_no <= num_tunnels; tun_no++){
+					printf("Analyzing IP = %s", IPs[tun_no-1]);
+                	update_ret = perfsonar_stats_update_per_IP(map_fd, map_type, &record, tun_no, IPs[tun_no-1]);
+					if(update_ret == 1){
+						printf("\n***********************\n");
+						printf("\tERROR UPDATING MAP\t");
+						printf("\n***********************\n\n\n");
+					}
+					//perfsonar_stats_print(&record);
+				}
+                sleep(POLLING_INTERVAL);
+        }
+}
+
 int main(int argc, char **argv)
 {
 	printf("running interface scoring\n");
 	int fd, ret;
+
+	int num_tunnels;
+	char **IPs;
 
 	// Handle SIGINT and errors.
 	if (setjmp(jump_destination) == 1) {
@@ -32,6 +255,21 @@ int main(int argc, char **argv)
 		goto cleanup;
 	}
 
+	num_tunnels = (argc-1);
+	IPs = argv+1;
+
+	perfsonar_stats_poll(fd, BPF_PROG_TYPE_SCHED_CLS, num_tunnels, IPs);
+	return 0;
+
+cleanup:
+	printf("cleaning up\n");
+	close(fd);
+	return 0;
+
+}
+
+
+/*{
 	// Insert at key 0.
 	__u32 k1 = 0;
 	__u32 v1 = 25;
@@ -58,5 +296,5 @@ cleanup:
 	printf("cleaning up\n");
 	close(fd);
 	return 0;
-}
+}*/
 

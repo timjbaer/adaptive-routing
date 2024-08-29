@@ -26,7 +26,7 @@ attach:
 .PHONY: run
 run:
 	sudo ./seed.o
-	sudo ./score.o
+	sudo ./score.o $(IP)
 
 .PHONY: clean
 clean:
