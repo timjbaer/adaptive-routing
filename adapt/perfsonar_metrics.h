@@ -7,6 +7,7 @@
 #define EXIT_OK 0
 #define EXIT_FAIL 1
 #define POLLING_INTERVAL 2
+#define FIXED_POINT_SCALE 1000000
 
 /* Representation of perfSonar metrics */
 typedef struct {
@@ -27,6 +28,12 @@ typedef struct {
     char ifname[IF_NAMESIZE]; // name of the tunnel interface
 }tunnel;
 
-int run_experiment_per_ip(char* IP, int tun_no, perfSonar* PS);
+static void perfsonar_stats_poll (int map_fd, __u32 map_type, int num_tunnels, char **IPs);
+
+int perfsonar_stats_update_per_IP(int map_fd, __u32 map_type, perfSonar *stats_rec, int tun_no, char* IP);
+
+__u64 float_to_fixed(float value);
+
+__u32 find_min_latency(int map_fd);
 
 #endif /* __PERFSONAR_METRICS_H */

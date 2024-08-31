@@ -15,10 +15,21 @@
 
 char _license[] SEC("license") = "GPL";
 
+// struct {
+// 	//__uint(type, BPF_MAP_TYPE_ARRAY);
+// 	__uint(type, BPF_MAP_TYPE_HASH);
+// 	__type(key, __u32);
+// 	__type(value, perfSonar);
+// 	__uint(max_entries, MAX_ENTRIES);
+// 	__uint(pinning, LIBBPF_PIN_BY_NAME);
+// 	__uint(flags, BPF_F_MMAPABLE);
+// } perfsonar_scores SEC(".maps");
+
 struct {
-	__uint(type, BPF_MAP_TYPE_ARRAY);
+	//__uint(type, BPF_MAP_TYPE_ARRAY);
+	__uint(type, BPF_MAP_TYPE_HASH);
 	__type(key, __u32);
-	__type(value, perfSonar);
+	__type(value, __u64);
 	__uint(max_entries, MAX_ENTRIES);
 	__uint(pinning, LIBBPF_PIN_BY_NAME);
 	__uint(flags, BPF_F_MMAPABLE);
@@ -34,7 +45,7 @@ struct {
 } boot_to_wall_off_ns SEC(".maps");
 
 struct {
-	__uint(type, BPF_MAP_TYPE_ARRAY);
+	__uint(type, BPF_MAP_TYPE_HASH);
 	__type(key, __u32);
 	__type(value, __u32);
 	__uint(max_entries, 1);
