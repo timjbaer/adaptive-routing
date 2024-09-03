@@ -1,5 +1,7 @@
 . ./var.sh
 
+IF="adapt"
+
 # Enable kernel modules.
 lsmod | grep gre
 echo 1 > /proc/sys/net/ipv4/ip_forward
@@ -19,9 +21,13 @@ ip route add ${VM4_IP} \
 	nexthop via ${TUN1_DST_IP} dev gre1 \
 	nexthop via ${TUN2_DST_IP} dev gre2
 
+# Add dummy interface.
+ip link add ${IF} type dummy 2>/dev/null
+ip link set ${IF} up
+
 # Route packets toward VM4 through adapt interface.
 echo 100 custom >> /etc/iproute2/rt_tables
-ip route add ${VM4_IP} dev adapt table 100
+ip route add ${VM4_IP} dev ${IF} table 100
 
 ip rule add fwmark 0x1 lookup 100
 iptables -t mangle -A PREROUTING -j MARK --set-mark 0x1
