@@ -21,12 +21,14 @@ seed:
 
 .PHONY: attach
 attach:
-	sudo ./attach.sh $(IP)
+	# sudo ./attach.sh $(PUB_IP)
+	sudo ./attach.sh 172.31.1.27
 
 .PHONY: run
 run:
 	sudo ./seed.o
-	sudo ./score.o $(IP)
+	# sudo ./score.o ${TUN_IPS[@]}
+	sudo ./score.o 172.31.1.27 127.0.0.1
 
 .PHONY: clean
 clean:

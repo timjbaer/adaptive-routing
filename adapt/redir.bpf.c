@@ -33,7 +33,7 @@ struct {
 	__uint(max_entries, MAX_ENTRIES);
 	__uint(pinning, LIBBPF_PIN_BY_NAME);
 	__uint(flags, BPF_F_MMAPABLE);
-} perfsonar_scores SEC(".maps");
+} scores SEC(".maps");
 
 struct {
         __uint(type, BPF_MAP_TYPE_ARRAY);

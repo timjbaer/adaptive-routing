@@ -3,34 +3,31 @@
 
 #define NUM_TUNNELS 4
 #define NUM_METRICS 10
-#define IF_NAMESIZE 32
 #define EXIT_OK 0
 #define EXIT_FAIL 1
 #define POLLING_INTERVAL 2
+#define TUN_IF_NAMESIZE     16
 #define FIXED_POINT_SCALE 1000000
 
 /* Representation of perfSonar metrics */
 typedef struct {
-    char interface[IF_NAMESIZE];
+    char interface[TUN_IF_NAMESIZE];
     __u64 median_latency;
     __u64 min_latency;
     __u64 max_latency;
     __u64 mean_latency;
-}perfSonar;
+}latency_stats;
 
 // typedef struct {
 //         __u64 timestamp;
 //         perfSonar record;
 // }perfSonarRecord;
 
-/* Representation of a tunnel interface */
-typedef struct {
-    char ifname[IF_NAMESIZE]; // name of the tunnel interface
-}tunnel;
+static void stats_poll(int map_fd, __u32 map_type, int num_tunnels, char **IPs);
 
-static void perfsonar_stats_poll (int map_fd, __u32 map_type, int num_tunnels, char **IPs);
+__u32 get_interface_index_from_ip(const char *ip_address);
 
-int perfsonar_stats_update_per_IP(int map_fd, __u32 map_type, perfSonar *stats_rec, int tun_no, char* IP);
+int stats_update_per_IP(int map_fd, __u32 map_type, latency_stats *stats_rec, int tun_no, char* IP);
 
 __u64 float_to_fixed(float value);
 
