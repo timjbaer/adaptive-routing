@@ -21,7 +21,7 @@ seed:
 
 .PHONY: attach
 attach:
-	sudo ./attach.sh $(IP)
+	sudo ./attach.sh
 
 .PHONY: run
 run:

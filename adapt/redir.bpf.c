@@ -9,9 +9,8 @@
 
 #define MAX_ENTRIES 64
 #define AF21_HEX 0x48
-#define TCP_TIMESTAMP_OFF 4
-#define TCP_OPTIONS_LEN 12
-#define GRE1_INTF_IDX 6
+#define GRE1_INTF_IDX 10
+#define ENS5_INTF_IDX 2
 
 char _license[] SEC("license") = "GPL";
 
@@ -54,7 +53,7 @@ int adapt_redir(struct __sk_buff *skb)
 
 	// Only apply algorithm to low latency packets
 	// defined as DSCP value AF21_HEX.
-	if ((iph->tos & 0xFC) != AF21_HEX)
+	if (iph->tos != AF21_HEX)
 		goto cleanup;
 
 	// Find TCP header.
@@ -62,12 +61,12 @@ int adapt_redir(struct __sk_buff *skb)
         if (tcph + 1 > data_end)
 		goto cleanup;
 
-        if ((char*)(tcph + 1) + TCP_OPTIONS_LEN > data_end)
+	// Find timestamp.
+	char *ts = (char*)tcph + tcph->doff * 4;
+	if (ts + sizeof(__u64) > data_end)
 		goto cleanup;
 
-	// Find TCP timestamp
-        char *tcpts = (char*)(tcph + 1) + TCP_TIMESTAMP_OFF;
-	__u64 start_ns = *(__u64*)tcpts;
+	__u64 start_ns = *(__u64*)ts;
 
 	// Read boot to wall time offset from userspace.
         __u32 k = 0;
@@ -89,8 +88,10 @@ int adapt_redir(struct __sk_buff *skb)
 	if (!score)
 		goto cleanup;
 
-cleanup:
-	// Redirect packet to tunnel.
 	return bpf_redirect_neigh(GRE1_INTF_IDX, NULL, 0, 0);
+
+cleanup:
+	bpf_printk("error with adaptive routing\n");
+	return bpf_redirect_neigh(ENS5_INTF_IDX, NULL, 0, 0);
 }
 

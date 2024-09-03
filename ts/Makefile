@@ -1,26 +1,17 @@
 .PHONY: all
-all: build attach run
+all: build run
 
 .PHONY: build
-build: ts seed
+build: client
 
-.PHONY: ts
-ts:
-	clang -O2 -Wall -emit-llvm -g -c ts.bpf.c -o - | \
-	llc -march=bpf -mcpu=probe -filetype=obj -o ts.bpf.o
-
-.PHONY: seed
-seed:
-	clang -O2 -lbpf seed.c -o seed.o
-	sudo chmod +x seed.o
-
-.PHONY: attach
-attach:
-	sudo ./attach.sh $(IP)
+.PHONY: client
+client:
+	clang -O2 -lbpf client.c -o client.o
+	sudo chmod +x client.o
 
 .PHONY: run
 run:
-	sudo ./seed.o
+	./client.o $(FNAME)
 
 .PHONY: clean
 clean:

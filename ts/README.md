@@ -1,13 +1,7 @@
-# Adaptive Routing with eBPF
-
-## Dependencies
-- llvm
-- clang
-- libbpf-dev
-- bpftool
+# Send File with Timestamp Header
 
 ## Usage
 ```
-make IP={?}
+make FNAME={?}
 ```
 
