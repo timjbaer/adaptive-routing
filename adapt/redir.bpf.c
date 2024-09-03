@@ -9,7 +9,7 @@
 
 #define MAX_ENTRIES 64
 #define AF21_HEX 0x48
-#define GRE1_INTF_IDX 15
+#define GRE1_INTF_IDX 10
 #define ENS5_INTF_IDX 2
 
 char _license[] SEC("license") = "GPL";

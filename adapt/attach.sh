@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ -z "${1}" ]; then
-    echo "Please specify an IP to adaptively route traffic towards"
-    exit 1
-fi
-
 IF="adapt"
 
 # Attach BPF program to dummy interface.
