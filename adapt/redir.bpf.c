@@ -7,21 +7,12 @@
 #include <linux/if_ether.h>
 #include <linux/pkt_cls.h>
 
-#define MAX_ENTRIES 64
+#define MAX_TUNNELS 16
 #define AF21_HEX 0x48
 #define GRE1_INTF_IDX 10
 #define ENS5_INTF_IDX 2
 
 char _license[] SEC("license") = "GPL";
-
-struct {
-	__uint(type, BPF_MAP_TYPE_ARRAY);
-	__type(key, __u32);
-	__type(value, __u32);
-	__uint(max_entries, MAX_ENTRIES);
-	__uint(pinning, LIBBPF_PIN_BY_NAME);
-	__uint(flags, BPF_F_MMAPABLE);
-} intf_scores SEC(".maps");
 
 struct {
         __uint(type, BPF_MAP_TYPE_ARRAY);
@@ -31,6 +22,15 @@ struct {
         __uint(pinning, LIBBPF_PIN_BY_NAME);
 	__uint(flags, BPF_F_MMAPABLE);
 } boot_to_wall_off_ns SEC(".maps");
+
+struct {
+	__uint(type, BPF_MAP_TYPE_ARRAY);
+	__type(key, __u32);
+	__type(value, __u32);
+	__uint(max_entries, MAX_TUNNELS);
+	__uint(pinning, LIBBPF_PIN_BY_NAME);
+	__uint(flags, BPF_F_MMAPABLE);
+} tunnel_latency SEC(".maps");
 
 SEC("tc")
 int adapt_redir(struct __sk_buff *skb)
@@ -78,13 +78,12 @@ int adapt_redir(struct __sk_buff *skb)
 	// Compute latency.
 	__u64 end_ns = bpf_ktime_get_boot_ns() + *off_ns;
 	__u64 lat_ns = end_ns - start_ns;
-	bpf_printk("observed latency (ns): %lu\n", lat_ns);
+	// bpf_printk("observed latency (ns): %lu\n", lat_ns);
 
-	// Lookup at key 0.
+	// Lookup at key 10.
+	k = 10;
 	__u32 *score;
-
-	k = 0;
-	score = bpf_map_lookup_elem(&intf_scores, &k);
+	score = bpf_map_lookup_elem(&tunnel_latency, &k);
 	if (!score)
 		goto cleanup;
 
