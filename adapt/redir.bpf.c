@@ -4,6 +4,7 @@
 #include <linux/if_ether.h>
 #include <linux/in.h>
 #include <linux/ip.h>
+#include <linux/string.h>
 #include <linux/tcp.h>
 
 #define DEBUG 1
@@ -72,12 +73,13 @@ int adapt_redir(struct __sk_buff *skb) {
     goto cleanup;
 
   // Find timestamp and deadline.
-  char *ts = (char *)tcph + tcph->doff * 4;
+  char *ts = (char *)((unsigned char *)tcph + (tcph->doff * 4));
   if (ts + 2 * sizeof(__u64) > data_end)
     goto cleanup;
 
-  __u64 start_ns = *(__u64 *)ts;
-  __u64 dead_ns = *(__u64 *)(ts + sizeof(__u64));
+  __u64 start_ns, dead_ns;
+  memcpy(&start_ns, ts, sizeof(__u64));
+  memcpy(&dead_ns, ts + sizeof(__u64), sizeof(__u64));
 
   // Read boot to wall time offset from userspace.
   __u32 k = 0;
@@ -115,6 +117,7 @@ int adapt_redir(struct __sk_buff *skb) {
     bpf_printk("avg intf latency (ns): %lu\n", v->avg);
 #endif
     // TODO: this is per-packet deadlines.
+    // TODO: select fastest if none meet deadline.
     if (v->max + obs_ns < dead_ns && v->avg < best_avg) {
       best_idx = k;
       best_avg = v->avg;
@@ -122,10 +125,9 @@ int adapt_redir(struct __sk_buff *skb) {
   }
 
 #ifdef DEBUG
-  if (best_avg != UINT32_MAX)
-    bpf_printk("routing through best interface: %d\n", best_idx);
-  else
+  if (best_avg == UINT32_MAX)
     bpf_printk("no interface can meet deadline\n");
+  bpf_printk("routing through best interface: %d\n", best_idx);
 #endif
   return bpf_redirect_neigh(best_idx, NULL, 0, 0);
 

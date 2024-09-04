@@ -1,4 +1,5 @@
 #include <arpa/inet.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,89 +7,102 @@
 #include <unistd.h>
 
 #define DEBUG 1
-#define IP_ADDR "30.0.9.48"
-#define PORT 2399
-#define BUFFER_SIZE 1024
-#define HEADER_SIZE 16
-#define CHUNK_SIZE (BUFFER_SIZE - HEADER_SIZE)
+#define MTU_SIZE 1500
+#define IP_HDR_SIZE 20
+#define TCP_HDR_SIZE 20
+#define CSTM_HDR_SIZE (2 * sizeof(uint64_t))
+#define BUFFER_SIZE (MTU_SIZE - IP_HDR_SIZE - TCP_HDR_SIZE - CSTM_HDR_SIZE)
 #define AF21 18
 
-int send_file_with_timestamp(int sock, FILE *file, int64_t deadline_ns) {
-  int ret = 0;
-  char buffer[BUFFER_SIZE];
-  char header[HEADER_SIZE];
-  struct timespec wall;
-  int64_t wall_ns;
+ssize_t send_with_timestamp(int sockfd, const void *data, size_t len,
+                            int64_t wall_ns, int64_t dead_ns) {
+  char buffer[BUFFER_SIZE + CSTM_HDR_SIZE];
+  char header[CSTM_HDR_SIZE];
 
-  size_t read_size;
-  while ((read_size = fread(buffer + HEADER_SIZE, 1, CHUNK_SIZE, file)) > 0) {
-    if ((ret = clock_gettime(CLOCK_REALTIME, &wall)) < 0)
-      return ret;
-    wall_ns = 1000000000 * wall.tv_sec + wall.tv_nsec;
-#ifdef DEBUG
-    printf("wall_ns: %lu\n", wall_ns);
-    printf("deadline_ns: %lu\n", deadline_ns);
-#endif
-    memcpy(buffer, &wall_ns, sizeof(int64_t));
-    memcpy(buffer + sizeof(int64_t), &deadline_ns, sizeof(int64_t));
+  memcpy(buffer, &wall_ns, sizeof(uint64_t));
+  memcpy(buffer + sizeof(uint64_t), &dead_ns, sizeof(uint64_t));
 
-    if ((ret = send(sock, buffer, HEADER_SIZE + read_size, 0)) < 0) {
-      close(sock);
-      return ret;
-    }
-  }
+  memcpy(buffer + CSTM_HDR_SIZE, data, len);
 
-  if (ferror(file)) {
-    close(sock);
-    return 1;
-  }
-
-  return 0;
+  return send(sockfd, buffer, CSTM_HDR_SIZE + len, 0);
 }
 
 int main(int argc, char *argv[]) {
   int ret = 0;
-  int sock;
-  struct sockaddr_in addr;
-  FILE *file;
-  char *filename;
-  long deadline_ns;
+  int sock, fd;
+  struct sockaddr_in server_addr;
 
-  if (argc != 3) {
-    fprintf(stderr, "Usage: %s <filename> <latency>\n", argv[0]);
-    return 1;
+  if (argc != 5) {
+    fprintf(
+        stderr,
+        "Usage: %s <server_ip> <server_port> <file_to_send> <deadline_ns>\n",
+        argv[0]);
+    return -1;
   }
 
-  filename = argv[1];
-  deadline_ns = strtol(argv[2], NULL, 10);
+  char *server_ip = argv[1];
+  int server_port = atoi(argv[2]);
+  char *fname = argv[3];
+  long latency_ns = strtol(argv[4], NULL, 10);
 
-  file = fopen(filename, "rb");
-  if (!file)
-    return 1;
-
-  sock = socket(AF_INET, SOCK_STREAM, 0);
-  if ((ret = sock) < 0)
+  if ((ret = sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     goto cleanup;
 
   int dscp = AF21 << 2;
   if ((ret = setsockopt(sock, IPPROTO_IP, IP_TOS, &dscp, sizeof(dscp))) < 0)
     goto cleanup;
 
-  memset(&addr, 0, sizeof(addr));
-  addr.sin_family = AF_INET;
-  addr.sin_port = htons(PORT);
-  if ((ret = inet_pton(AF_INET, IP_ADDR, &addr.sin_addr)) <= 0)
+  memset(&server_addr, 0, sizeof(server_addr));
+  server_addr.sin_family = AF_INET;
+  server_addr.sin_port = htons(server_port);
+
+  if ((ret = inet_pton(AF_INET, server_ip, &server_addr.sin_addr)) < 0)
     goto cleanup;
 
-  if ((ret = connect(sock, (struct sockaddr *)&addr, sizeof(addr))) < 0)
+  if ((ret = connect(sock, (struct sockaddr *)&server_addr,
+                     sizeof(server_addr))) < 0)
     goto cleanup;
 
-  ret = send_file_with_timestamp(sock, file, deadline_ns);
+  if ((ret = fd = open(fname, O_RDONLY)) < 0)
+    goto cleanup;
+
+  // Compute deadline.
+  struct timespec wall;
+  uint64_t wall_ns, dead_ns;
+  if (clock_gettime(CLOCK_REALTIME, &wall) < 0)
+    return -1;
+  wall_ns = 1000000000 * wall.tv_sec + wall.tv_nsec;
+  dead_ns = latency_ns + wall_ns;
+#ifdef DEBUG
+  printf("deadline_ns: %lu\n", dead_ns);
+#endif
+
+  // Send file with timestamp.
+  char buffer[BUFFER_SIZE];
+  ssize_t bytes_read;
+  while ((bytes_read = read(fd, buffer, sizeof(buffer))) > 0) {
+    if (clock_gettime(CLOCK_REALTIME, &wall) < 0)
+      return -1;
+    wall_ns = 1000000000 * wall.tv_sec + wall.tv_nsec;
+#ifdef DEBUG
+    printf("wall_ns: %lu\n", wall_ns);
+#endif
+    if ((ret = send_with_timestamp(sock, buffer, bytes_read, wall_ns,
+                                   dead_ns)) < 0)
+      goto cleanup;
+  }
+
+  if ((ret = bytes_read) < 0)
+    goto cleanup;
 
 cleanup:
+  close(fd);
   close(sock);
-  fclose(file);
+
+#ifdef DEBUG
+  if (ret < 0)
+    printf("Error during send with timestamp\n");
+#endif
 
   return ret;
 }
-
