@@ -1,3 +1,5 @@
+include var.sh
+
 .PHONY: all
 all: build attach run
 
@@ -26,7 +28,7 @@ attach:
 .PHONY: run
 run:
 	sudo ./seed.o
-	sudo ./score.o
+	sudo ./score.o ${TUN1_SRC_IP} ${TUN1_DST_IP} ${TUN2_SRC_IP} ${TUN2_DST_IP}
 
 .PHONY: clean
 clean:

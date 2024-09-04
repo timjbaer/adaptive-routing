@@ -99,10 +99,10 @@ int adapt_redir(struct __sk_buff *skb) {
   bpf_printk("observed latency (ns): %lu\n", obs_ns);
 #endif
 
-// Adaptive routing algorithm.
-// TODO: add hyperparameter sticky to follow same path if only incrementally worse.
-__u32 best_idx = ENS5_INTF_IDX;
-__u32 best_avg = UINT32_MAX;
+  // Adaptive routing algorithm.
+  // TODO: add hyperparameter to follow same path if only a little worse.
+  __u32 best_idx = ENS5_INTF_IDX;
+  __u32 best_avg = UINT32_MAX;
 #pragma clang loop unroll(full)
   for (__u32 k = 0; k < MAX_INTFS; k++) {
     struct latency_ns *v = lookup_latency(k);
@@ -114,6 +114,7 @@ __u32 best_avg = UINT32_MAX;
     bpf_printk("max intf latency (ns): %lu\n", v->max);
     bpf_printk("avg intf latency (ns): %lu\n", v->avg);
 #endif
+    // TODO: this is per-packet deadlines.
     if (v->max + obs_ns < dead_ns && v->avg < best_avg) {
       best_idx = k;
       best_avg = v->avg;
@@ -121,7 +122,10 @@ __u32 best_avg = UINT32_MAX;
   }
 
 #ifdef DEBUG
-  bpf_printk("routing through best interface: %d\n", best_idx);
+  if (best_avg != UINT32_MAX)
+    bpf_printk("routing through best interface: %d\n", best_idx);
+  else
+    bpf_printk("no interface can meet deadline\n");
 #endif
   return bpf_redirect_neigh(best_idx, NULL, 0, 0);
 
@@ -132,4 +136,3 @@ cleanup:
 #endif
   return bpf_redirect_neigh(ENS5_INTF_IDX, NULL, 0, 0);
 }
-
