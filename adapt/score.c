@@ -6,14 +6,14 @@
 #include <unistd.h>
 
 #include <arpa/inet.h>
+#include <bpf/bpf.h>
+#include <bpf/libbpf.h>
 #include <ifaddrs.h>
+#include <linux/types.h>
 #include <net/if.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/types.h>
-#include <bpf/bpf.h>
-#include <bpf/libbpf.h>
-#include <linux/types.h>
 
 #include "score.h"
 
@@ -23,7 +23,13 @@
 #define FILENAMELENGTH 20
 #define PINGPSKTS 5
 
-static const char MAP_PATH[] = "/sys/fs/bpf/tc/globals/tunnel_latency";
+struct latency_ns {
+  __u32 min;
+  __u32 max;
+  __u32 avg;
+};
+
+static const char MAP_PATH[] = "/sys/fs/bpf/tc/globals/intf_latency";
 
 #define PING_CMD "ping -c 5 " // Ping command to send 5 ICMP packet
 
@@ -31,12 +37,11 @@ jmp_buf jump_destination;
 
 void sigint_handler(int sg) { longjmp(jump_destination, 1); }
 
-
 // Comparison function for qsort
 int compare(const void *a, const void *b) {
-    double fa = *(const double*) a;
-    double fb = *(const double*) b;
-    return (fa > fb) - (fa < fb);
+  double fa = *(const double *)a;
+  double fb = *(const double *)b;
+  return (fa > fb) - (fa < fb);
 }
 
 // Function to extract latency from ping output
@@ -46,7 +51,7 @@ void get_latency(const char *ip_address, double latency[PINGPSKTS]) {
 
   FILE *fp;
   char output[1024];
-  //double latency[PINGPSKTS] = {0};
+  // double latency[PINGPSKTS] = {0};
 
   // Run the ping command and open the output stream
   fp = popen(cmd, "r");
@@ -69,46 +74,45 @@ void get_latency(const char *ip_address, double latency[PINGPSKTS]) {
     ctr = ctr + 1;
   }
   pclose(fp);
-
 }
 
-
-double get_mean_latency(double latency[]){
+double get_mean_latency(double latency[]) {
 
   double sum_latency = 0.0;
 
-  for (int i=0; i<PINGPSKTS; i++){
-    if ((latency[i] != __DBL_MAX__)){
-        sum_latency += latency[i];
-    }  
+  for (int i = 0; i < PINGPSKTS; i++) {
+    if ((latency[i] != __DBL_MAX__)) {
+      sum_latency += latency[i];
+    }
   }
-  return (sum_latency/PINGPSKTS);
+  return (sum_latency / PINGPSKTS);
 }
 
-double get_max_latency(double latency[]){
+double get_max_latency(double latency[]) {
 
   double max_latency = 0.0;
 
-  for (int i=0; i<PINGPSKTS; i++){
-    if ((latency[i] != __DBL_MAX__) && (latency[i] >= max_latency)){
-        max_latency = latency[i];
-    }  
+  for (int i = 0; i < PINGPSKTS; i++) {
+    if ((latency[i] != __DBL_MAX__) && (latency[i] >= max_latency)) {
+      max_latency = latency[i];
+    }
   }
   return max_latency;
 }
 
 double get_median_latency(double latency[]) {
-    // Sort the array
-    qsort(latency, PINGPSKTS, sizeof(double), compare);
+  // Sort the array
+  qsort(latency, PINGPSKTS, sizeof(double), compare);
 
-    // If the number of elements is odd, return the middle element
-    if (PINGPSKTS % 2 != 0) {
-        return latency[PINGPSKTS / 2];
-    }
-    // If the number of elements is even, return the average of the two middle elements
-    else {
-        return (latency[(PINGPSKTS - 1) / 2] + latency[PINGPSKTS / 2]) / 2.0;
-    }
+  // If the number of elements is odd, return the middle element
+  if (PINGPSKTS % 2 != 0) {
+    return latency[PINGPSKTS / 2];
+  }
+  // If the number of elements is even, return the average of the two middle
+  // elements
+  else {
+    return (latency[(PINGPSKTS - 1) / 2] + latency[PINGPSKTS / 2]) / 2.0;
+  }
 }
 
 __u64 float_to_fixed(float value) {
@@ -118,7 +122,7 @@ __u64 float_to_fixed(float value) {
 int stats_update_per_IP(int map_fd, latency_stats *stats_rec, int tun_no,
                         char *IP) {
   double latency_values[PINGPSKTS];
-  get_latency(IP, latency_values); 
+  get_latency(IP, latency_values);
   double mean_val = get_mean_latency(latency_values);
   double max_val = get_max_latency(latency_values);
   double median_val = get_median_latency(latency_values);
@@ -132,10 +136,10 @@ int stats_update_per_IP(int map_fd, latency_stats *stats_rec, int tun_no,
          "Latency = %llu Max Latency = %llu Median Latency = %llu",
          stats_rec->interface, tun_no, stats_rec->mean_latency,
          stats_rec->max_latency, stats_rec->median_latency);
+  struct latency_ns lat = {stats_rec->min_latency, stats_rec->max_latency,
+                           stats_rec->median_latency};
 
-  //int value = stats_rec->mean_latency;
-
-  if (bpf_map_update_elem(map_fd, &tun_no, stats_rec  , 0) < 0) {
+  if (bpf_map_update_elem(map_fd, &tun_no, &lat, 0) < 0) {
     perror("bpf_map_update_elem");
   }
 
