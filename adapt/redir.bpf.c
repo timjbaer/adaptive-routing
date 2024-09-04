@@ -1,11 +1,11 @@
-#include <bpf/bpf_helpers.h>
 #include <linux/bpf.h>
-
+#include <bpf/bpf_helpers.h>
 #include <linux/if_ether.h>
 #include <linux/in.h>
 #include <linux/ip.h>
 #include <linux/pkt_cls.h>
 #include <linux/tcp.h>
+#include "score.h"
 
 #define MAX_TUNNELS 16
 #define AF21_HEX 0x48
@@ -26,7 +26,8 @@ struct {
 struct {
   __uint(type, BPF_MAP_TYPE_ARRAY);
   __type(key, __u32);
-  __type(value, __u32);
+  //__type(value, __u32);
+  __type(value, latency_stats);
   __uint(max_entries, MAX_TUNNELS);
   __uint(pinning, LIBBPF_PIN_BY_NAME);
   __uint(flags, BPF_F_MMAPABLE);
