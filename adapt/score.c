@@ -31,7 +31,7 @@ struct latency_ns {
 
 static const char MAP_PATH[] = "/sys/fs/bpf/tc/globals/intf_latency";
 
-#define PING_CMD "ping -c 5 " // Ping command to send 5 ICMP packet
+#define PING_CMD "ping -Q 0x48 -c 5 " // Ping command to send 5 ICMP packet
 
 jmp_buf jump_destination;
 
