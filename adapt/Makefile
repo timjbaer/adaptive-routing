@@ -33,4 +33,5 @@ run:
 .PHONY: clean
 clean:
 	rm -rf *.log *.o
+	rm -rf /sys/fs/bpf/tc/globals/*
 
