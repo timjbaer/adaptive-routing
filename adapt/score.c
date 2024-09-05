@@ -129,8 +129,24 @@ int stats_update_per_IP(int map_fd, latency_stats *stats_rec, int tun_no,
 
   strcpy(stats_rec->interface, IP);
   stats_rec->mean_latency = float_to_fixed(mean_val);
-  stats_rec->max_latency = float_to_fixed(max_val);
   stats_rec->median_latency = float_to_fixed(median_val);
+  __u64 cur_max_latency = float_to_fixed(max_val);
+
+  //Read previous max latency in the map
+  __u64 prev_max_latency = 0.0;
+  struct latency_ns prev_lat;
+	if (bpf_map_lookup_elem(map_fd, &tun_no, &prev_lat)){
+		perror("bpf_map_lookup_elem");
+	}else{
+		prev_max_latency = prev_lat.max;
+    printf("\n2. [READ FROM STATS MAP] Key = %d,  Prev. Max Latency = %llu, Current Max. Latency = %llu", tun_no, prev_max_latency, cur_max_latency);
+	}
+
+  //Update the max latency only if the new value is higher
+  if (cur_max_latency >= prev_max_latency)
+    stats_rec->max_latency = cur_max_latency;
+  else
+    stats_rec->max_latency = prev_max_latency;
 
   printf("\n1. [STORE IN STATS MAP] To Host = %s (Tunnel # = %d) --> Mean "
          "Latency = %llu Max Latency = %llu Median Latency = %llu",
