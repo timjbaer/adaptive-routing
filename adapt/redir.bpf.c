@@ -8,13 +8,12 @@
 #include <linux/string.h>
 #include <linux/tcp.h>
 
-#define DEBUG 1
 #define MAX_INTFS 16
 #define MAX_FLOWS 32
 #define AF21_HEX 0x48
 #define ENS5_INTF_IDX 2
 #define UINT32_MAX 0xFFFFFFFF
-#define STICKY 100000
+#define STICKY(x) (x - x * 2 / 100)
 
 char _license[] SEC("license") = "GPL";
 
@@ -65,6 +64,9 @@ struct latency_ns *lookup_latency(__u32 k) {
 
 SEC("tc")
 int adapt_redir(struct __sk_buff *skb) {
+#ifdef BENCH
+  __u64 enter_ns = bpf_ktime_get_boot_ns();
+#endif
   // Find IP header.
   void *data = (void *)(long)skb->data;
   const struct ethhdr *eth = data;
@@ -175,13 +177,13 @@ int adapt_redir(struct __sk_buff *skb) {
   if (prev_idx && *prev_idx != best_idx) {
     struct latency_ns *v = lookup_latency(*prev_idx);
     if (v && meets_dead) {
-      if (v->max + now_ns < dead_ns && v->avg < STICKY + best_avg) {
+      if (v->max + now_ns < dead_ns && STICKY(v->avg) < best_avg) {
         best_idx = *prev_idx;
 #ifdef DEBUG
         bpf_printk("sticking to previous interface: %d\n", *prev_idx);
 #endif
       }
-    } else if (v && v->avg < STICKY + best_avg) {
+    } else if (v && STICKY(v->avg) < best_avg) {
       best_idx = *prev_idx;
 #ifdef DEBUG
       bpf_printk("sticking to previous interface: %d\n", *prev_idx);
@@ -197,6 +199,13 @@ int adapt_redir(struct __sk_buff *skb) {
     bpf_printk("interface meets deadline\n");
   else
     bpf_printk("no interface can meet deadline\n");
+#endif
+#ifdef BENCH
+  __u64 exit_ns = bpf_ktime_get_boot_ns();
+  bpf_printk("adaptive routing overhead: %lu\n", exit_ns - enter_ns);
+#endif
+#ifdef DEBUG
+  bpf_printk("routing through interface: %d\n", best_idx);
 #endif
   return bpf_redirect_neigh(best_idx, NULL, 0, 0);
 
