@@ -1,6 +1,6 @@
-. ./var.sh
+#!/bin/bash
 
-IF="adapt"
+. ../var.sh
 
 # Enable kernel modules.
 lsmod | grep gre
