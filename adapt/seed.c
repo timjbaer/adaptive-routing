@@ -38,5 +38,5 @@ int main(int argc, char **argv) {
 cleanup:
   printf("cleaning up\n");
   close(fd);
-  return 0;
+  return ret;
 }

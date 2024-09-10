@@ -1,2 +1,4 @@
-. ./var.sh
+#!/bin/bash
+
+. ../var.sh
 

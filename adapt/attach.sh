@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IF="adapt"
+. ../var.sh
 
 # Attach BPF program to dummy interface.
 /sbin/tc qdisc del dev ${IF} clsact 2>/dev/null

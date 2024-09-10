@@ -1,4 +1,4 @@
-include var.sh
+include ../var.sh
 
 .PHONY: all
 all: build attach run
@@ -33,5 +33,5 @@ run:
 .PHONY: clean
 clean:
 	rm -rf *.log *.o
-	rm -rf /sys/fs/bpf/tc/globals/*
+	sudo rm -rf /sys/fs/bpf/tc/globals/*
 

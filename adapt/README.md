@@ -2,6 +2,6 @@
 
 ## Usage
 ```
-make IP={?}
+make
 ```
 
