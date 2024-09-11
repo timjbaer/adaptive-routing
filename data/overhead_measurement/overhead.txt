@@ -1,0 +1,642 @@
+          <idle>-0       [000] b.s.. 136870.364417: bpf_trace_printk: adaptive routing overhead: 2688
+
+          <idle>-0       [000] b.s.. 136870.364445: bpf_trace_printk: adaptive routing overhead: 915
+
+          <idle>-0       [000] b.s.. 136870.364458: bpf_trace_printk: adaptive routing overhead: 404
+
+          <idle>-0       [000] b.s.. 136870.364467: bpf_trace_printk: adaptive routing overhead: 299
+
+          <idle>-0       [000] b.s.. 136870.365130: bpf_trace_printk: adaptive routing overhead: 765
+
+          <idle>-0       [000] b.s.. 136870.365252: bpf_trace_printk: adaptive routing overhead: 737
+
+          <idle>-0       [000] b.s.. 136870.365285: bpf_trace_printk: adaptive routing overhead: 517
+
+          <idle>-0       [000] b.s.. 136870.365554: bpf_trace_printk: adaptive routing overhead: 489
+
+          <idle>-0       [000] b.s.. 136870.365801: bpf_trace_printk: adaptive routing overhead: 467
+
+          <idle>-0       [000] b.s.. 136870.365865: bpf_trace_printk: adaptive routing overhead: 483
+
+          <idle>-0       [000] b.s.. 136870.366080: bpf_trace_printk: adaptive routing overhead: 454
+
+          <idle>-0       [000] b.s.. 136870.366272: bpf_trace_printk: adaptive routing overhead: 668
+
+          <idle>-0       [000] b.s.. 136870.366293: bpf_trace_printk: adaptive routing overhead: 470
+
+          <idle>-0       [000] b.s.. 136870.366551: bpf_trace_printk: adaptive routing overhead: 846
+
+          <idle>-0       [000] b.s.. 136870.366575: bpf_trace_printk: adaptive routing overhead: 454
+
+          <idle>-0       [000] b.s.. 136870.366919: bpf_trace_printk: adaptive routing overhead: 496
+
+          <idle>-0       [000] b.s.. 136870.367071: bpf_trace_printk: adaptive routing overhead: 490
+
+          <idle>-0       [000] b.s.. 136870.367597: bpf_trace_printk: adaptive routing overhead: 996
+
+          <idle>-0       [000] b.s.. 136870.367726: bpf_trace_printk: adaptive routing overhead: 556
+
+          <idle>-0       [000] b.s.. 136870.367858: bpf_trace_printk: adaptive routing overhead: 473
+
+          <idle>-0       [000] b.s.. 136870.367896: bpf_trace_printk: adaptive routing overhead: 425
+
+          <idle>-0       [000] b.s.. 136870.367995: bpf_trace_printk: adaptive routing overhead: 466
+
+          <idle>-0       [000] b.s.. 136870.368009: bpf_trace_printk: adaptive routing overhead: 417
+
+          <idle>-0       [000] b.s.. 136870.368123: bpf_trace_printk: adaptive routing overhead: 450
+
+          <idle>-0       [000] b.s.. 136870.368165: bpf_trace_printk: adaptive routing overhead: 425
+
+          <idle>-0       [000] b.s.. 136870.368350: bpf_trace_printk: adaptive routing overhead: 790
+
+          <idle>-0       [000] b.s.. 136870.368528: bpf_trace_printk: adaptive routing overhead: 611
+
+     ksoftirqd/0-14      [000] b.s.. 136870.368578: bpf_trace_printk: adaptive routing overhead: 630
+
+          <idle>-0       [000] b.s.. 136870.368759: bpf_trace_printk: adaptive routing overhead: 484
+
+          <idle>-0       [000] b.s.. 136870.368803: bpf_trace_printk: adaptive routing overhead: 444
+
+          <idle>-0       [000] b.s.. 136870.368890: bpf_trace_printk: adaptive routing overhead: 487
+
+          <idle>-0       [000] b.s.. 136870.368909: bpf_trace_printk: adaptive routing overhead: 451
+
+          <idle>-0       [000] b.s.. 136870.369011: bpf_trace_printk: adaptive routing overhead: 568
+
+          <idle>-0       [000] b.s.. 136870.369049: bpf_trace_printk: adaptive routing overhead: 488
+
+          <idle>-0       [000] b.s.. 136870.369091: bpf_trace_printk: adaptive routing overhead: 461
+
+          <idle>-0       [000] b.s.. 136870.369155: bpf_trace_printk: adaptive routing overhead: 500
+
+          <idle>-0       [000] b.s.. 136870.369182: bpf_trace_printk: adaptive routing overhead: 582
+
+          <idle>-0       [000] b.s.. 136870.369301: bpf_trace_printk: adaptive routing overhead: 486
+
+          <idle>-0       [000] b.s.. 136870.369347: bpf_trace_printk: adaptive routing overhead: 439
+
+          <idle>-0       [000] b.s.. 136870.369492: bpf_trace_printk: adaptive routing overhead: 645
+
+          <idle>-0       [000] b.s.. 136870.369742: bpf_trace_printk: adaptive routing overhead: 633
+
+          <idle>-0       [000] b.s.. 136870.369779: bpf_trace_printk: adaptive routing overhead: 568
+
+          <idle>-0       [000] b.s.. 136870.369822: bpf_trace_printk: adaptive routing overhead: 382
+
+          <idle>-0       [000] b.s.. 136870.369875: bpf_trace_printk: adaptive routing overhead: 456
+
+          <idle>-0       [000] b.s.. 136870.369911: bpf_trace_printk: adaptive routing overhead: 436
+
+          <idle>-0       [000] b.s.. 136870.369944: bpf_trace_printk: adaptive routing overhead: 420
+
+          <idle>-0       [000] b.s.. 136870.369991: bpf_trace_printk: adaptive routing overhead: 434
+
+          <idle>-0       [000] b.s.. 136870.370042: bpf_trace_printk: adaptive routing overhead: 443
+
+          <idle>-0       [000] b.s.. 136870.370081: bpf_trace_printk: adaptive routing overhead: 428
+
+          <idle>-0       [000] b.s.. 136870.370114: bpf_trace_printk: adaptive routing overhead: 515
+
+          <idle>-0       [000] b.s.. 136870.370160: bpf_trace_printk: adaptive routing overhead: 422
+
+          <idle>-0       [000] b.s.. 136870.370218: bpf_trace_printk: adaptive routing overhead: 449
+
+          <idle>-0       [000] b.s.. 136870.370355: bpf_trace_printk: adaptive routing overhead: 533
+
+          <idle>-0       [000] b.s.. 136870.370410: bpf_trace_printk: adaptive routing overhead: 441
+
+          <idle>-0       [000] b.s.. 136870.370469: bpf_trace_printk: adaptive routing overhead: 426
+
+          <idle>-0       [000] b.s.. 136870.370574: bpf_trace_printk: adaptive routing overhead: 547
+
+          <idle>-0       [000] b.s.. 136870.370650: bpf_trace_printk: adaptive routing overhead: 483
+
+          <idle>-0       [000] b.s.. 136870.370732: bpf_trace_printk: adaptive routing overhead: 447
+
+          <idle>-0       [000] b.s.. 136870.370895: bpf_trace_printk: adaptive routing overhead: 470
+
+          <idle>-0       [000] b.s.. 136870.370949: bpf_trace_printk: adaptive routing overhead: 446
+
+          <idle>-0       [000] b.s.. 136870.371017: bpf_trace_printk: adaptive routing overhead: 646
+
+          <idle>-0       [000] b.s.. 136870.371089: bpf_trace_printk: adaptive routing overhead: 392
+
+          <idle>-0       [000] b.s.. 136870.371102: bpf_trace_printk: adaptive routing overhead: 416
+
+          <idle>-0       [000] b.s.. 136870.371156: bpf_trace_printk: adaptive routing overhead: 385
+
+          <idle>-0       [000] b.s.. 136870.371210: bpf_trace_printk: adaptive routing overhead: 440
+
+          <idle>-0       [000] b.s.. 136870.371377: bpf_trace_printk: adaptive routing overhead: 488
+
+     ksoftirqd/0-14      [000] b.s.. 136870.371478: bpf_trace_printk: adaptive routing overhead: 641
+
+     ksoftirqd/0-14      [000] b.s.. 136870.371535: bpf_trace_printk: adaptive routing overhead: 428
+
+     ksoftirqd/0-14      [000] b.s.. 136870.371686: bpf_trace_printk: adaptive routing overhead: 582
+
+     ksoftirqd/0-14      [000] b.s.. 136870.371746: bpf_trace_printk: adaptive routing overhead: 480
+
+     ksoftirqd/0-14      [000] b.s.. 136870.371826: bpf_trace_printk: adaptive routing overhead: 486
+
+     ksoftirqd/0-14      [000] b.s.. 136870.371871: bpf_trace_printk: adaptive routing overhead: 444
+
+     ksoftirqd/0-14      [000] b.s.. 136870.371931: bpf_trace_printk: adaptive routing overhead: 432
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372084: bpf_trace_printk: adaptive routing overhead: 584
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372135: bpf_trace_printk: adaptive routing overhead: 416
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372240: bpf_trace_printk: adaptive routing overhead: 468
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372308: bpf_trace_printk: adaptive routing overhead: 469
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372372: bpf_trace_printk: adaptive routing overhead: 444
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372430: bpf_trace_printk: adaptive routing overhead: 490
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372486: bpf_trace_printk: adaptive routing overhead: 444
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372648: bpf_trace_printk: adaptive routing overhead: 475
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372703: bpf_trace_printk: adaptive routing overhead: 471
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372773: bpf_trace_printk: adaptive routing overhead: 442
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372855: bpf_trace_printk: adaptive routing overhead: 448
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372919: bpf_trace_printk: adaptive routing overhead: 457
+
+     ksoftirqd/0-14      [000] b.s.. 136870.372973: bpf_trace_printk: adaptive routing overhead: 607
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373139: bpf_trace_printk: adaptive routing overhead: 476
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373218: bpf_trace_printk: adaptive routing overhead: 480
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373233: bpf_trace_printk: adaptive routing overhead: 474
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373286: bpf_trace_printk: adaptive routing overhead: 391
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373329: bpf_trace_printk: adaptive routing overhead: 580
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373371: bpf_trace_printk: adaptive routing overhead: 428
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373407: bpf_trace_printk: adaptive routing overhead: 582
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373423: bpf_trace_printk: adaptive routing overhead: 472
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373537: bpf_trace_printk: adaptive routing overhead: 691
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373599: bpf_trace_printk: adaptive routing overhead: 675
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373616: bpf_trace_printk: adaptive routing overhead: 493
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373639: bpf_trace_printk: adaptive routing overhead: 346
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373648: bpf_trace_printk: adaptive routing overhead: 374
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373693: bpf_trace_printk: adaptive routing overhead: 383
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373709: bpf_trace_printk: adaptive routing overhead: 466
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373746: bpf_trace_printk: adaptive routing overhead: 446
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373872: bpf_trace_printk: adaptive routing overhead: 447
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373903: bpf_trace_printk: adaptive routing overhead: 428
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373913: bpf_trace_printk: adaptive routing overhead: 396
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373951: bpf_trace_printk: adaptive routing overhead: 427
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373961: bpf_trace_printk: adaptive routing overhead: 437
+
+     ksoftirqd/0-14      [000] b.s.. 136870.373997: bpf_trace_printk: adaptive routing overhead: 359
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374012: bpf_trace_printk: adaptive routing overhead: 467
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374044: bpf_trace_printk: adaptive routing overhead: 380
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374057: bpf_trace_printk: adaptive routing overhead: 470
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374081: bpf_trace_printk: adaptive routing overhead: 355
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374110: bpf_trace_printk: adaptive routing overhead: 532
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374141: bpf_trace_printk: adaptive routing overhead: 409
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374154: bpf_trace_printk: adaptive routing overhead: 434
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374193: bpf_trace_printk: adaptive routing overhead: 396
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374236: bpf_trace_printk: adaptive routing overhead: 590
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374263: bpf_trace_printk: adaptive routing overhead: 404
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374275: bpf_trace_printk: adaptive routing overhead: 459
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374313: bpf_trace_printk: adaptive routing overhead: 496
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374358: bpf_trace_printk: adaptive routing overhead: 437
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374374: bpf_trace_printk: adaptive routing overhead: 488
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374395: bpf_trace_printk: adaptive routing overhead: 392
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374505: bpf_trace_printk: adaptive routing overhead: 453
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374515: bpf_trace_printk: adaptive routing overhead: 413
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374546: bpf_trace_printk: adaptive routing overhead: 391
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374590: bpf_trace_printk: adaptive routing overhead: 408
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374634: bpf_trace_printk: adaptive routing overhead: 559
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374644: bpf_trace_printk: adaptive routing overhead: 440
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374673: bpf_trace_printk: adaptive routing overhead: 545
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374704: bpf_trace_printk: adaptive routing overhead: 394
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374747: bpf_trace_printk: adaptive routing overhead: 701
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374791: bpf_trace_printk: adaptive routing overhead: 446
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374835: bpf_trace_printk: adaptive routing overhead: 436
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374850: bpf_trace_printk: adaptive routing overhead: 460
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374877: bpf_trace_printk: adaptive routing overhead: 348
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374915: bpf_trace_printk: adaptive routing overhead: 463
+
+     ksoftirqd/0-14      [000] b.s.. 136870.374950: bpf_trace_printk: adaptive routing overhead: 404
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375093: bpf_trace_printk: adaptive routing overhead: 462
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375108: bpf_trace_printk: adaptive routing overhead: 485
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375114: bpf_trace_printk: adaptive routing overhead: 372
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375119: bpf_trace_printk: adaptive routing overhead: 348
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375145: bpf_trace_printk: adaptive routing overhead: 374
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375164: bpf_trace_printk: adaptive routing overhead: 502
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375207: bpf_trace_printk: adaptive routing overhead: 533
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375249: bpf_trace_printk: adaptive routing overhead: 439
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375283: bpf_trace_printk: adaptive routing overhead: 436
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375292: bpf_trace_printk: adaptive routing overhead: 380
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375306: bpf_trace_printk: adaptive routing overhead: 376
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375326: bpf_trace_printk: adaptive routing overhead: 743
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375368: bpf_trace_printk: adaptive routing overhead: 433
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375383: bpf_trace_printk: adaptive routing overhead: 440
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375548: bpf_trace_printk: adaptive routing overhead: 785
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375564: bpf_trace_printk: adaptive routing overhead: 461
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375600: bpf_trace_printk: adaptive routing overhead: 411
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375635: bpf_trace_printk: adaptive routing overhead: 418
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375671: bpf_trace_printk: adaptive routing overhead: 445
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375703: bpf_trace_printk: adaptive routing overhead: 429
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375740: bpf_trace_printk: adaptive routing overhead: 531
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375750: bpf_trace_printk: adaptive routing overhead: 436
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375778: bpf_trace_printk: adaptive routing overhead: 582
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375792: bpf_trace_printk: adaptive routing overhead: 457
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375868: bpf_trace_printk: adaptive routing overhead: 617
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375881: bpf_trace_printk: adaptive routing overhead: 685
+
+     ksoftirqd/0-14      [000] b.s.. 136870.375925: bpf_trace_printk: adaptive routing overhead: 549
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376119: bpf_trace_printk: adaptive routing overhead: 546
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376146: bpf_trace_printk: adaptive routing overhead: 467
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376187: bpf_trace_printk: adaptive routing overhead: 428
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376199: bpf_trace_printk: adaptive routing overhead: 423
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376207: bpf_trace_printk: adaptive routing overhead: 347
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376212: bpf_trace_printk: adaptive routing overhead: 317
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376238: bpf_trace_printk: adaptive routing overhead: 329
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376345: bpf_trace_printk: adaptive routing overhead: 650
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376359: bpf_trace_printk: adaptive routing overhead: 593
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376390: bpf_trace_printk: adaptive routing overhead: 422
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376400: bpf_trace_printk: adaptive routing overhead: 388
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376404: bpf_trace_printk: adaptive routing overhead: 382
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376413: bpf_trace_printk: adaptive routing overhead: 393
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376441: bpf_trace_printk: adaptive routing overhead: 522
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376455: bpf_trace_printk: adaptive routing overhead: 450
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376460: bpf_trace_printk: adaptive routing overhead: 336
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376488: bpf_trace_printk: adaptive routing overhead: 445
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376537: bpf_trace_printk: adaptive routing overhead: 431
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376546: bpf_trace_printk: adaptive routing overhead: 366
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376556: bpf_trace_printk: adaptive routing overhead: 373
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376594: bpf_trace_printk: adaptive routing overhead: 378
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376635: bpf_trace_printk: adaptive routing overhead: 430
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376647: bpf_trace_printk: adaptive routing overhead: 469
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376751: bpf_trace_printk: adaptive routing overhead: 631
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376764: bpf_trace_printk: adaptive routing overhead: 451
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376919: bpf_trace_printk: adaptive routing overhead: 478
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376964: bpf_trace_printk: adaptive routing overhead: 449
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376975: bpf_trace_printk: adaptive routing overhead: 475
+
+     ksoftirqd/0-14      [000] b.s.. 136870.376984: bpf_trace_printk: adaptive routing overhead: 389
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377012: bpf_trace_printk: adaptive routing overhead: 359
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377021: bpf_trace_printk: adaptive routing overhead: 380
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377050: bpf_trace_printk: adaptive routing overhead: 504
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377060: bpf_trace_printk: adaptive routing overhead: 427
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377089: bpf_trace_printk: adaptive routing overhead: 445
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377100: bpf_trace_printk: adaptive routing overhead: 455
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377121: bpf_trace_printk: adaptive routing overhead: 363
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377130: bpf_trace_printk: adaptive routing overhead: 381
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377155: bpf_trace_printk: adaptive routing overhead: 466
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377197: bpf_trace_printk: adaptive routing overhead: 440
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377207: bpf_trace_printk: adaptive routing overhead: 405
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377250: bpf_trace_printk: adaptive routing overhead: 426
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377269: bpf_trace_printk: adaptive routing overhead: 473
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377295: bpf_trace_printk: adaptive routing overhead: 388
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377388: bpf_trace_printk: adaptive routing overhead: 528
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377445: bpf_trace_printk: adaptive routing overhead: 710
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377472: bpf_trace_printk: adaptive routing overhead: 408
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377511: bpf_trace_printk: adaptive routing overhead: 406
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377521: bpf_trace_printk: adaptive routing overhead: 385
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377556: bpf_trace_printk: adaptive routing overhead: 376
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377565: bpf_trace_printk: adaptive routing overhead: 368
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377595: bpf_trace_printk: adaptive routing overhead: 355
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377606: bpf_trace_printk: adaptive routing overhead: 354
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377615: bpf_trace_printk: adaptive routing overhead: 356
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377763: bpf_trace_printk: adaptive routing overhead: 523
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377890: bpf_trace_printk: adaptive routing overhead: 701
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377929: bpf_trace_printk: adaptive routing overhead: 447
+
+     ksoftirqd/0-14      [000] b.s.. 136870.377938: bpf_trace_printk: adaptive routing overhead: 394
+
+     ksoftirqd/0-14      [000] b.s.. 136870.378090: bpf_trace_printk: adaptive routing overhead: 523
+
+     ksoftirqd/0-14      [000] b.s.. 136870.378102: bpf_trace_printk: adaptive routing overhead: 429
+
+     ksoftirqd/0-14      [000] b.s.. 136870.378133: bpf_trace_printk: adaptive routing overhead: 414
+
+     ksoftirqd/0-14      [000] b.s.. 136870.378143: bpf_trace_printk: adaptive routing overhead: 384
+
+     ksoftirqd/0-14      [000] b.s.. 136870.378147: bpf_trace_printk: adaptive routing overhead: 368
+
+     ksoftirqd/0-14      [000] b.s.. 136870.378153: bpf_trace_printk: adaptive routing overhead: 355
+
+     ksoftirqd/0-14      [000] b.s.. 136870.378157: bpf_trace_printk: adaptive routing overhead: 310
+
+     ksoftirqd/0-14      [000] b.s.. 136870.378165: bpf_trace_printk: adaptive routing overhead: 390
+
+     ksoftirqd/0-14      [000] b.s.. 136870.378189: bpf_trace_printk: adaptive routing overhead: 506
+
+     ksoftirqd/0-14      [000] b.s.. 136870.378203: bpf_trace_printk: adaptive routing overhead: 468
+
+          <idle>-0       [000] b.s.. 136870.378374: bpf_trace_printk: adaptive routing overhead: 467
+
+          <idle>-0       [000] b.s.. 136870.378389: bpf_trace_printk: adaptive routing overhead: 725
+
+          <idle>-0       [000] b.s.. 136870.378395: bpf_trace_printk: adaptive routing overhead: 371
+
+          <idle>-0       [000] b.s.. 136870.378621: bpf_trace_printk: adaptive routing overhead: 668
+
+          <idle>-0       [000] b.s.. 136870.378638: bpf_trace_printk: adaptive routing overhead: 453
+
+          <idle>-0       [000] b.s.. 136870.378650: bpf_trace_printk: adaptive routing overhead: 369
+
+          <idle>-0       [000] b.s.. 136870.378681: bpf_trace_printk: adaptive routing overhead: 361
+
+          <idle>-0       [000] b.s.. 136870.378700: bpf_trace_printk: adaptive routing overhead: 503
+
+          <idle>-0       [000] b.s.. 136870.378927: bpf_trace_printk: adaptive routing overhead: 458
+
+          <idle>-0       [000] b.s.. 136870.379043: bpf_trace_printk: adaptive routing overhead: 464
+
+          <idle>-0       [000] b.s.. 136870.379083: bpf_trace_printk: adaptive routing overhead: 408
+
+          <idle>-0       [000] b.s.. 136870.379092: bpf_trace_printk: adaptive routing overhead: 411
+
+          <idle>-0       [000] b.s.. 136870.379191: bpf_trace_printk: adaptive routing overhead: 439
+
+          <idle>-0       [000] b.s.. 136870.379205: bpf_trace_printk: adaptive routing overhead: 451
+
+          <idle>-0       [000] b.s.. 136870.379268: bpf_trace_printk: adaptive routing overhead: 450
+
+          <idle>-0       [000] b.s.. 136870.379321: bpf_trace_printk: adaptive routing overhead: 453
+
+          <idle>-0       [000] b.s.. 136870.379331: bpf_trace_printk: adaptive routing overhead: 395
+
+          <idle>-0       [000] b.s.. 136870.379335: bpf_trace_printk: adaptive routing overhead: 384
+
+          <idle>-0       [000] b.s.. 136870.379369: bpf_trace_printk: adaptive routing overhead: 390
+
+          <idle>-0       [000] b.s.. 136870.379406: bpf_trace_printk: adaptive routing overhead: 432
+
+          <idle>-0       [000] b.s.. 136870.379500: bpf_trace_printk: adaptive routing overhead: 662
+
+          <idle>-0       [000] b.s.. 136870.379555: bpf_trace_printk: adaptive routing overhead: 452
+
+          <idle>-0       [000] b.s.. 136870.379594: bpf_trace_printk: adaptive routing overhead: 482
+
+          <idle>-0       [000] b.s.. 136870.379620: bpf_trace_printk: adaptive routing overhead: 296
+
+          <idle>-0       [000] b.s.. 136870.379745: bpf_trace_printk: adaptive routing overhead: 581
+
+          <idle>-0       [000] b.s.. 136870.379783: bpf_trace_printk: adaptive routing overhead: 299
+
+          <idle>-0       [000] b.s.. 136870.379971: bpf_trace_printk: adaptive routing overhead: 505
+
+          <idle>-0       [000] b.s.. 136870.380013: bpf_trace_printk: adaptive routing overhead: 390
+
+          <idle>-0       [000] b.s.. 136870.380073: bpf_trace_printk: adaptive routing overhead: 447
+
+          <idle>-0       [000] b.s.. 136870.380083: bpf_trace_printk: adaptive routing overhead: 414
+
+          <idle>-0       [000] b.s.. 136870.380128: bpf_trace_printk: adaptive routing overhead: 551
+
+          <idle>-0       [000] b.s.. 136870.380138: bpf_trace_printk: adaptive routing overhead: 382
+
+          <idle>-0       [000] b.s.. 136870.380147: bpf_trace_printk: adaptive routing overhead: 364
+
+          <idle>-0       [000] b.s.. 136870.380230: bpf_trace_printk: adaptive routing overhead: 530
+
+          <idle>-0       [000] b.s.. 136870.380297: bpf_trace_printk: adaptive routing overhead: 463
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380362: bpf_trace_printk: adaptive routing overhead: 501
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380377: bpf_trace_printk: adaptive routing overhead: 490
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380412: bpf_trace_printk: adaptive routing overhead: 494
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380424: bpf_trace_printk: adaptive routing overhead: 424
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380446: bpf_trace_printk: adaptive routing overhead: 383
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380478: bpf_trace_printk: adaptive routing overhead: 424
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380488: bpf_trace_printk: adaptive routing overhead: 419
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380503: bpf_trace_printk: adaptive routing overhead: 440
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380524: bpf_trace_printk: adaptive routing overhead: 480
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380640: bpf_trace_printk: adaptive routing overhead: 430
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380655: bpf_trace_printk: adaptive routing overhead: 484
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380694: bpf_trace_printk: adaptive routing overhead: 416
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380709: bpf_trace_printk: adaptive routing overhead: 488
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380739: bpf_trace_printk: adaptive routing overhead: 362
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380775: bpf_trace_printk: adaptive routing overhead: 443
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380789: bpf_trace_printk: adaptive routing overhead: 598
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380823: bpf_trace_printk: adaptive routing overhead: 402
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380837: bpf_trace_printk: adaptive routing overhead: 455
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380866: bpf_trace_printk: adaptive routing overhead: 460
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380898: bpf_trace_printk: adaptive routing overhead: 563
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380910: bpf_trace_printk: adaptive routing overhead: 493
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380933: bpf_trace_printk: adaptive routing overhead: 363
+
+     ksoftirqd/0-14      [000] b.s.. 136870.380977: bpf_trace_printk: adaptive routing overhead: 460
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381023: bpf_trace_printk: adaptive routing overhead: 464
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381059: bpf_trace_printk: adaptive routing overhead: 540
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381157: bpf_trace_printk: adaptive routing overhead: 644
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381169: bpf_trace_printk: adaptive routing overhead: 448
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381295: bpf_trace_printk: adaptive routing overhead: 474
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381338: bpf_trace_printk: adaptive routing overhead: 431
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381353: bpf_trace_printk: adaptive routing overhead: 486
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381379: bpf_trace_printk: adaptive routing overhead: 544
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381410: bpf_trace_printk: adaptive routing overhead: 423
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381442: bpf_trace_printk: adaptive routing overhead: 553
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381531: bpf_trace_printk: adaptive routing overhead: 593
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381545: bpf_trace_printk: adaptive routing overhead: 496
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381570: bpf_trace_printk: adaptive routing overhead: 391
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381606: bpf_trace_printk: adaptive routing overhead: 422
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381643: bpf_trace_printk: adaptive routing overhead: 439
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381681: bpf_trace_printk: adaptive routing overhead: 437
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381718: bpf_trace_printk: adaptive routing overhead: 425
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381727: bpf_trace_printk: adaptive routing overhead: 386
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381732: bpf_trace_printk: adaptive routing overhead: 332
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381761: bpf_trace_printk: adaptive routing overhead: 376
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381798: bpf_trace_printk: adaptive routing overhead: 549
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381830: bpf_trace_printk: adaptive routing overhead: 415
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381840: bpf_trace_printk: adaptive routing overhead: 379
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381848: bpf_trace_printk: adaptive routing overhead: 341
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381881: bpf_trace_printk: adaptive routing overhead: 378
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381890: bpf_trace_printk: adaptive routing overhead: 373
+
+     ksoftirqd/0-14      [000] b.s.. 136870.381899: bpf_trace_printk: adaptive routing overhead: 380
+
+     ksoftirqd/0-14      [000] b.s.. 136870.382024: bpf_trace_printk: adaptive routing overhead: 515
+
+     ksoftirqd/0-14      [000] b.s.. 136870.382057: bpf_trace_printk: adaptive routing overhead: 414
+
+     ksoftirqd/0-14      [000] b.s.. 136870.382070: bpf_trace_printk: adaptive routing overhead: 456
+
+     ksoftirqd/0-14      [000] b.s.. 136870.382094: bpf_trace_printk: adaptive routing overhead: 353
+
